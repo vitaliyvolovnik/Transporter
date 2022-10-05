@@ -1,0 +1,21 @@
+
+9
+	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
+]
+-TransportationFront/src/app/app.component.css,c\7\c7ad9a48324e3793f3b8502a6d6fb100d55d6165
+†
+VTransportation/src/main/java/com/example/transportation/TransportationApplication.java,c\d\cda1ad4e09b90fd3163a04f826ed7b7ccc8c5f4d
+z
+JTransportation/src/main/java/com/example/transportation/mapper/Mapper.java,e\9\e9906f9f1e9ceddd86d50935af4a312783de8fa3
+[
++TransportationFront/TransportationFront.iml,8\3\83300b1eec6da933ccebfd54caf0bb9f39cf5924
+†
+VTransportation/src/main/java/com/example/transportation/controller/AuthController.java,7\8\788a59d694d96af1f05c2e261de3a18a98ca6049
+Š
+ZTransportation/src/main/java/com/example/transportation/controller/CustomerController.java,0\9\0995aec86bebe2539d87583b08a1aef7722cab02
+^
+.TransportationFront/src/app/config/Constans.ts,2\0\206419990189aa36b2a7859d4084a36965c717f2
+P
+ TransportationFront/angular.json,0\d\0d00bfc85af057fd82f6e065083f80e0b1a1e551
+‡
+WTransportation/src/main/java/com/example/transportation/controller/CargoController.java,6\2\6298a70f086b51a281e4cf2d3efcc0540b48353b
