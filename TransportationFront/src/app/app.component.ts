@@ -11,20 +11,20 @@ import {first} from "rxjs";
 export class AppComponent {
   title = 'TransportationFront';
 
-  cargoes:Cargo[]=[];
+  //cargoes:Cargo[]=[];
   constructor(private cargoHttpService:CargoHttpService) {
-    this.getCargoes();
+    //this.getCargoes();
   }
 
 
-  getCargoes(){
+  /*getCargoes(){
     this.cargoHttpService.getAll()
       .pipe(first())
       .subscribe({
         next:(cargo)=>{this.cargoes= cargo},
         error:error=>console.log(error.statusCode)
       });
-  }
+  }*/
 
 
 }

@@ -1,1 +1,23 @@
-<p>login works!</p>
+<form #loginForm="ngForm" (ngSubmit)="loginForm.valid && login()">
+
+  <h2>Login</h2>
+
+  <div class="grid p-fluid">
+    <div class="col-12">
+      <div class="p-inputgroup">
+        <span class="p-inputgroup-addon"><i class="pi pi-at"></i></span>
+        <input [(ngModel)]="credentials.email" name="email" type="text" pInputText placeholder="Email" required >
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="p-inputgroup">
+        <span class="p-inputgroup-addon"><i class="pi pi-lock"></i></span>
+        <input [(ngModel)]="credentials.password" name="password" type="password" pInputText placeholder="Password" required>
+      </div>
+    </div>
+  </div>
+
+  <button pButton pRipple type="submit" label="Primary" class="p-button-raised"></button>
+
+</form>
