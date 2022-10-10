@@ -1,0 +1,6 @@
+export enum DeliveryState {
+  PUBLISHED = "PUBLISHED",
+  CANCELED = "CANCELED",
+  HAS_OFFER = "HAS_OFFER",
+  OFFER_ACCEPTED = "OFFER_ACCEPTED"
+}

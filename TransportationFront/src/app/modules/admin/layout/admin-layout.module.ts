@@ -5,6 +5,7 @@ import { AdminHeaderComponent } from './admin-header/admin-header.component';
 import {RouterLink, RouterOutlet} from "@angular/router";
 import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
+import {TabMenuModule} from "primeng/tabmenu";
 
 
 
@@ -18,7 +19,8 @@ import {RippleModule} from "primeng/ripple";
         RouterOutlet,
         ButtonModule,
         RippleModule,
-        RouterLink
+        RouterLink,
+        TabMenuModule
     ]
 })
 export class AdminLayoutModule { }

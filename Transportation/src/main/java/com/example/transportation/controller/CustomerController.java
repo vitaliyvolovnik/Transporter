@@ -4,6 +4,11 @@ import com.example.transportation.dto.CustomerDto;
 import com.example.transportation.dto.CustomerShortDto;
 import com.example.transportation.service.CustomerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.aop.scope.ScopedProxyUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,11 +22,16 @@ public class CustomerController {
 
     @PreAuthorize("hasAnyRole('ADMIN','CUSTOMER')")
     @GetMapping("/{id}")
-    public CustomerDto get(@PathVariable long id){ return customerService.get(id);}
+    public CustomerDto get(@PathVariable long id){
+        return customerService.get(id);
+    }
 
     @PreAuthorize("hasAnyRole('ADMIN','CUSTOMER')")
     @GetMapping()
-    public List<CustomerShortDto> get(){return customerService.getAll();}
+    public Page<CustomerShortDto> get(@PageableDefault(sort = "firstname", direction = Sort.Direction.ASC) Pageable pageable)
+    {
+        return customerService.getAll(pageable);
+    }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping

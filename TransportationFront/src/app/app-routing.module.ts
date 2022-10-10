@@ -1,9 +1,9 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {Route, RouterModule, Routes} from "@angular/router";
+import {RouterModule, Routes} from "@angular/router";
+import {AdminGuard} from "./guard/admin.guard";
 
 const routes: Routes = [
-  {path: "admin", loadChildren: () => import('./modules/admin/admin.module').then(m => m.AdminModule)},
+  {path: "admin", loadChildren: () => import('./modules/admin/admin.module').then(m => m.AdminModule),canActivate:[AdminGuard]},
   {path: "", loadChildren: () => import('./modules/main/main.module').then(m => m.MainModule)},
 
 ]

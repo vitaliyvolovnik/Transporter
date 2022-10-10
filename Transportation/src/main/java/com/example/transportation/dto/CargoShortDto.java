@@ -16,4 +16,6 @@ public class CargoShortDto {
     private String cargo;
     private Double weight;
     private String unitOfMeasurement;
+
+
 }

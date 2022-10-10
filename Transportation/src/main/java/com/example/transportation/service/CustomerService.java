@@ -3,16 +3,18 @@ package com.example.transportation.service;
 import com.example.transportation.dto.CustomerDto;
 import com.example.transportation.dto.CustomerShortDto;
 import com.example.transportation.entity.Customer;
-import com.example.transportation.entity.User;
 import com.example.transportation.exception.NotFoundException;
 import com.example.transportation.mapper.Mapper;
 import com.example.transportation.repository.CustomerRepository;
 import com.example.transportation.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+
+
 
 
 @RequiredArgsConstructor
@@ -29,8 +31,8 @@ public class CustomerService {
     public CustomerDto get(long id){
         return mapper.toCustomerDto(retrieve(id));
     }
-    public List<CustomerShortDto> getAll(){
-        return customerRepository.findAll().stream().map(mapper::toCustomerShortDto).toList();
+    public Page<CustomerShortDto> getAll(Pageable pageable){
+        return customerRepository.findAll(pageable).map(mapper::toCustomerShortDto);
     }
     public CustomerDto create(CustomerDto customerDto){
         Customer customer = mapper.toCustomer(customerDto);

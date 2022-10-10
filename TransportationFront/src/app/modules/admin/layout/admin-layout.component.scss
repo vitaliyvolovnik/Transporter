@@ -1,0 +1,24 @@
+:host{
+  .container{
+    display: flex;
+    flex-direction: row;
+    .admin-menu{
+      width: 15%;
+      ::ng-deep{
+        ul{
+          display: block;
+          border-right: 1px solid #dee2e6;
+        }
+      }
+      .menu-list{
+
+      }
+    }
+    .content{
+      width: 85%;
+      padding: 12px;
+    }
+  }
+
+}
+

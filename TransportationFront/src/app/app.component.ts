@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {CargoHttpService} from "@api/service/cargo-http.service";
-import {Cargo} from "@api/models/cargo";
+import {Cargo} from "@api/models/Cargo";
 import {first} from "rxjs";
 
 @Component({

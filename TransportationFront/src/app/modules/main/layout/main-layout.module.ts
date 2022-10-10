@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MainLayoutComponent } from './main-layout.component';
 import { MainHeaderComponent } from './main-header/main-header.component';
-import {RouterLink, RouterOutlet} from "@angular/router";
+import {RouterLink, RouterLinkActive, RouterLinkWithHref, RouterOutlet} from "@angular/router";
 import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
 
@@ -13,12 +13,14 @@ import {RippleModule} from "primeng/ripple";
     MainLayoutComponent,
     MainHeaderComponent
   ],
-    imports: [
-        CommonModule,
-        RouterOutlet,
-        ButtonModule,
-        RippleModule,
-        RouterLink
-    ]
+  imports: [
+    CommonModule,
+    RouterOutlet,
+    ButtonModule,
+    RippleModule,
+    RouterLink,
+    RouterLinkActive,
+    RouterLinkWithHref
+  ]
 })
 export class MainLayoutModule { }

@@ -28,7 +28,7 @@ public class User {
     @Column(columnDefinition = "boolean default true")
     private boolean active = true;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user",fetch = FetchType.LAZY)
     private Customer customer;
 
     @OneToOne(mappedBy = "user")

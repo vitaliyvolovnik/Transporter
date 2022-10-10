@@ -11,6 +11,7 @@ import lombok.*;
 @RequiredArgsConstructor
 public class UserDto {
 
+    private long id;
     private String email;
     private Role role;
     private boolean active;
