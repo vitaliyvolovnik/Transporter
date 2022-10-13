@@ -1,6 +1,7 @@
 package com.example.transportation.service;
 
 
+import com.example.transportation.Security.SecurityService;
 import com.example.transportation.dto.OfferDto;
 import com.example.transportation.entity.Delivery;
 import com.example.transportation.entity.Offer;
@@ -22,21 +23,22 @@ public class OfferService {
 
     private final DeliveryRepository deliveryRepository;
     private final OfferRepository offerRepository;
-    private final TransporterRepository transporterRepository;
     private final Mapper mapper;
+    private final SecurityService securityService;
 
-    public OfferDto get(long id){
-        return  mapper.toOfferDto(retrieve(id));
+    public OfferDto get(long id) {
+        return mapper.toOfferDto(retrieve(id));
     }
-    public List<OfferDto> getAll(){
+
+    public List<OfferDto> getAll() {
         return offerRepository.findAll().stream().map(mapper::toOfferDto).toList();
     }
-    public OfferDto create(OfferDto offerDto){
+
+    public OfferDto create(OfferDto offerDto) {
         Offer offer = mapper.toOffer(offerDto);
 
-        Delivery delivery = deliveryRepository.findById(offerDto.getDelivery().getId()).orElseThrow(()->new NotFoundException("Delivery",offer.getDelivery().getId()));
-        Transporter transporter =transporterRepository.findById(offerDto.getTransporter().getId()).orElseThrow(()->new NotFoundException("Transporter",offer.getTransporter().getId()));
-
+        Delivery delivery = deliveryRepository.findById(offerDto.getDelivery().getId()).orElseThrow(() -> new NotFoundException("Delivery", offer.getDelivery().getId()));
+        Transporter transporter = this.securityService.getUser().getTransporter();
         offer.setDelivery(delivery);
         offer.setTransporter(transporter);
 
@@ -44,19 +46,26 @@ public class OfferService {
         deliveryRepository.save(delivery);
         return mapper.toOfferDto(offerRepository.save(offer));
     }
-    public OfferDto update(long id,OfferDto offerDto){
+
+    public OfferDto update(long id, OfferDto offerDto) {
         Offer offer = retrieve(id);
-        mapper.margeOffer(offerDto,offer);
+        mapper.margeOffer(offerDto, offer);
         return mapper.toOfferDto(offerRepository.save(offer));
     }
-    public void delete(long id)
-    {
+
+    public void delete(long id) {
         offerRepository.delete(retrieve(id));
     }
-    public Offer retrieve(long id){
-        return offerRepository.findById(id).orElseThrow(() -> new NotFoundException("Offer",id));
+
+    public Offer retrieve(long id) {
+        return offerRepository.findById(id).orElseThrow(() -> new NotFoundException("Offer", id));
     }
 
 
-
+    public List<OfferDto> getCurrentTransporterOffers() {
+        return offerRepository.findByUserEmail(this.securityService.getCurrentUserEmail()).stream().map(mapper::toOfferDto).toList();
+    }
+    public List<OfferDto> getByDeliveryId(Long id){
+        return offerRepository.findByDeliveryId(id).stream().map(mapper::toOfferDto).toList();
+    }
 }

@@ -1,0 +1,21 @@
+<div class="form-container">
+
+  <form #form="ngForm" class="shadow-1" [formGroup]="formGroup" (ngSubmit)="form.valid&& saveOffer()">
+    <div class="header">create offer</div>
+    <div class="p-inputgroup element">
+      <textarea placeholder="description" style="width:100%;" rows="5" pInputTextarea
+                [autoResize]="autoResize" formControlName="information"></textarea>
+
+    </div>
+    <div class="p-inputgroup element">
+
+    </div>
+    <div class="p-inputgroup element" style="margin-top:0px;">
+      <input type="text" pInputText formControlName="price" placeholder="price">
+      <span class="p-inputgroup-addon">$</span>
+    </div>
+    <button *ngIf="isTransporter" pButton pRipple type="submit"  class="p-button-info" label="create" style="align-self:flex-end"></button>
+    <button *ngIf="!isTransporter" pButton pRipple type="button"  class="p-button-info" label="accept" style="align-self:flex-end"></button>
+  </form>
+</div>
+

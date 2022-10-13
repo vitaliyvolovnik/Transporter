@@ -16,9 +16,12 @@ public class OfferController {
 
     @GetMapping("/{id}")
     public OfferDto get(@PathVariable long id){ return offerService.get(id);}
-
+    @GetMapping("delivery/{id}")
+    public List<OfferDto> getDeliveryOrders(@PathVariable long id){ return offerService.getByDeliveryId(id);}
     @GetMapping()
     public List<OfferDto> get(){return offerService.getAll();}
+    @GetMapping("/currentOffer")
+    public List<OfferDto> getCurrentOffer(){return offerService.getCurrentTransporterOffers();}
 
     @PreAuthorize("hasAnyRole('ADMIN','TRANSPORTER')")
     @PostMapping

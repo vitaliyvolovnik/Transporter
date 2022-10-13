@@ -31,6 +31,6 @@ public class User {
     @OneToOne(mappedBy = "user",fetch = FetchType.LAZY)
     private Customer customer;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user",fetch = FetchType.LAZY)
     private  Transporter transporter;
 }

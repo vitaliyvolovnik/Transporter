@@ -4,14 +4,18 @@
     flex-direction: row;
     .admin-menu{
       width: 15%;
-      ::ng-deep{
-        ul{
-          display: block;
-          border-right: 1px solid #dee2e6;
-        }
+      padding-left: 24px;
+      padding-top: 12px;
+      a {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        color: #495057;
+        display: block;
+        padding: 12px;
+        text-decoration: none;
       }
-      .menu-list{
 
+      a.active {
+        font-weight: 850;
       }
     }
     .content{

@@ -1,8 +1,7 @@
 <script src="../../../../api/models/Delivery.ts"></script>
 <div class="card">
-  <p-dataView #dv [value]="deliveries" [paginator]="true" [rows]="9" filterBy="state"
-              [sortField]="sortField" [sortOrder]="sortOrder" layout="grid">
-    <ng-template pTemplate="header">
+  <p-dataView #dv [value]="deliveries" [paginator]="true" [rows]="9" filterBy="id" layout="grid">
+    <!--<ng-template pTemplate="header">
       <div class="flex flex-column md:flex-row md:justify-content-between">
         <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By id" (onChange)="onSortChange($event)" styleClass="mb-2 md:mb-0"></p-dropdown>
         <span class="p-input-icon-left mb-2 md:mb-0">
@@ -10,7 +9,7 @@
                     <input type="search" pInputText placeholder="Search by state" (input)="dv.filter($any($event.target).value)">
                 </span>
       </div>
-    </ng-template>
+    </ng-template>-->
     <ng-template let-delivery pTemplate="gridItem">
       <div class="col-12 md:col-4">
         <div class="product-grid-item card">
@@ -19,14 +18,30 @@
           </div>
           <div class="product-grid-item-content">
             <div class="product-description"><b>description: </b>{{delivery.description}}</div>
-            <div class="delivery-address"><b>Destination address: </b>{{delivery.destinationAddress.country + ' ' +delivery.destinationAddress.city + ' ' +delivery.destinationAddress.street}}</div>
-            <div class="delivery-address"><b>Departure address: </b>{{delivery.departureAddress.country + ' ' +delivery.departureAddress.city + ' ' +delivery.destinationAddress.street}}</div>
+            <div class="delivery-address"><b>Destination
+              address: </b>{{delivery.destinationAddress.country + ' ' + delivery.destinationAddress.city + ' ' + delivery.destinationAddress.street}}
+            </div>
+            <div class="delivery-address"><b>Departure
+              address: </b>{{delivery.departureAddress.country + ' ' + delivery.departureAddress.city + ' ' + delivery.destinationAddress.street}}
+            </div>
             <div class="cargo-count"><b>Cargo count: </b>{{delivery.cargoes.length}}</div>
             <div class="cargo-count"><b>Departure date: </b>{{delivery.departureDate| date:'MMM d, y'}}</div>
           </div>
           <div class="buttons">
-            <button pButton pRipple type="button" icon="pi pi-check" class="p-button-rounded" (click)="edit(delivery)"></button>
-            <button pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-danger" (click)="cancel(delivery)"></button>
+            <ng-container *ngIf="this.isCustomer">
+              <button pButton pRipple type="button" icon="fa-solid fa-info" class="p-button-rounded"
+                      (click)="edit(delivery)"
+                      [routerLink]="['/offers',delivery.id]"></button>
+              <button pButton pRipple type="button" icon="fa-solid fa-pen" class="p-button-rounded"
+                      (click)="edit(delivery)" [disabled]="delivery.state==ACCEPTED"
+                      [routerLink]="['/delivery/item',delivery.id]"></button>
+              <button pButton pRipple type="button" icon="fa-solid fa-trash" class="p-button-rounded p-button-danger"
+                      (click)="cancel(delivery)"></button>
+            </ng-container>
+            <ng-container *ngIf="!this.isCustomer">
+              <button pButton pRipple type="button" icon="fa-solid fa-info" class="p-button-rounded"
+                      [routerLink]="['/delivery/item',delivery.id]"></button>
+            </ng-container>
           </div>
         </div>
       </div>

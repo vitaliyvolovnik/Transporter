@@ -25,10 +25,13 @@ public class CustomerController {
     public CustomerDto get(@PathVariable long id){
         return customerService.get(id);
     }
-
-    @PreAuthorize("hasAnyRole('ADMIN','CUSTOMER')")
+    @GetMapping("/current")
+    public CustomerDto get(){
+        return customerService.getCurrent();
+    }
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping()
-    public Page<CustomerShortDto> get(@PageableDefault(sort = "firstname", direction = Sort.Direction.ASC) Pageable pageable)
+    public Page<CustomerShortDto> get(@PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable)
     {
         return customerService.getAll(pageable);
     }
@@ -37,7 +40,7 @@ public class CustomerController {
     @PostMapping
     public CustomerDto create(@RequestBody CustomerDto dto){return customerService.create(dto);}
 
-    @PreAuthorize("hasAnyRole('ADMIN','CUSTOMER')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping("/{id}")
     public void delete(@PathVariable long id){customerService.delete(id);}
 

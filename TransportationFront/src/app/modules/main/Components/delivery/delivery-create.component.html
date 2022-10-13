@@ -1,0 +1,63 @@
+<div class="form-container">
+
+  <form #form="ngForm" class="shadow-1" [formGroup]="formGroup" (ngSubmit)="form.valid&& saveDelivery()">
+    <div class="header">{{(isTransporter) ? '' : (this.delivery) ? 'update' : 'create'}} delivery</div>
+    <div class="p-inputgroup element">
+      <textarea placeholder="description" style="width:100%;height:200px" rows="5" pInputTextarea
+                [autoResize]="autoResize" [disabled]="isTransporter" formControlName="description"></textarea>
+    </div>
+    <div class="subject ">Departure address:</div>
+    <div class="address-container element">
+      <ng-container formGroupName="departureAddress">
+        <input type="text" pInputText placeholder="Country" [disabled]="isTransporter" formControlName="country">
+        <input type="text" pInputText placeholder="City" [disabled]="isTransporter" formControlName="city">
+        <input type="text" pInputText placeholder="Street" [disabled]="isTransporter" formControlName="street">
+      </ng-container>
+    </div>
+    <div class="subject ">Destination address:</div>
+    <div class="address-container element">
+      <ng-container formGroupName="destinationAddress">
+        <input type="text" pInputText placeholder="Country" [disabled]="isTransporter" formControlName="country">
+        <input type="text" pInputText placeholder="City" [disabled]="isTransporter" formControlName="city">
+        <input type="text" pInputText placeholder="Street" [disabled]="isTransporter" formControlName="street">
+      </ng-container>
+    </div>
+    <div class="subject ">departure dates:</div>
+    <div class="p-inputgroup element">
+      <span class="p-inputgroup-addon"><i class="fa-solid fa-calendar"></i></span>
+      <p-calendar class="calendar" inputId="basic" [disabled]="isTransporter" formControlName="departureDate"
+                  placeholder="departure address">
+        <ng-template pTemplate="header" style="width:100%">Header</ng-template>
+        <ng-template pTemplate="footer" style="width:100%">Footer</ng-template>
+      </p-calendar>
+    </div>
+    <div class="subject ">arrival dates:</div>
+    <div class="p-inputgroup element">
+      <span class="p-inputgroup-addon"><i class="fa-solid fa-calendar"></i></span>
+      <p-calendar class="calendar" inputId="basic" [disabled]="isTransporter" formControlName="arrivalDate"
+                  placeholder="arrival address">
+        <ng-template pTemplate="header" style="width:100%">Header</ng-template>
+        <ng-template pTemplate="footer" style="width:100%">Footer</ng-template>
+      </p-calendar>
+    </div>
+    <div class="subject ">Cargoes:</div>
+    <div class="address-container element" *ngFor="let control of  cargoArr.controls ;let i= index;"
+         formArrayName='cargoes'>
+      <ng-container [formGroupName]="i">
+        <input type="text" pInputText placeholder="Cargo" [disabled]="isTransporter" formControlName="cargo">
+        <input type="text" pInputText placeholder="Weight" [disabled]="isTransporter" formControlName="weight">
+        <input type="text" pInputText placeholder="Units" [disabled]="isTransporter"
+               formControlName="unitOfMeasurement">
+      </ng-container>
+    </div>
+    <button pButton pRipple type="button" *ngIf="!isTransporter" icon="fa-solid fa-plus" (click)="addCargo()"
+            class="p-button-rounded p-button-secondary p-button-text"></button>
+    <button pButton pRipple type="submit" *ngIf="!isTransporter" label="{{(this.delivery)?'update':'create'}}"
+            style="align-self:flex-end"></button>
+    <button pButton pRipple type="button" *ngIf="isTransporter" class="p-button-info" label="create offer"
+            style="align-self:flex-end" [routerLink]="['/offer/item/create',delivery?.id]"></button>
+  </form>
+</div>
+
+
+

@@ -17,10 +17,15 @@ public class DeliveryController {
     private final DeliveryService deliveryService;
 
     @GetMapping("/{id}")
-    public DeliveryDto get(@PathVariable long id){ return deliveryService.get(id);}
+    public DeliveryDto get(@PathVariable long id){
+        return deliveryService.get(id);
+    }
 
     @GetMapping()
     public List<DeliveryShortDto> get(){return deliveryService.getAll();}
+
+    @GetMapping("/current")
+    public List<DeliveryShortDto> getCurrent(){return deliveryService.getCurrentCustomerDeliveries();}
 
     @PreAuthorize("hasAnyRole('ADMIN','CUSTOMER')")
     @PostMapping

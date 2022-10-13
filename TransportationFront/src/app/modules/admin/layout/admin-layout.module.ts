@@ -6,6 +6,7 @@ import {RouterLink, RouterOutlet} from "@angular/router";
 import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
 import {TabMenuModule} from "primeng/tabmenu";
+import {MenuModule} from "primeng/menu";
 
 
 
@@ -14,13 +15,14 @@ import {TabMenuModule} from "primeng/tabmenu";
     AdminLayoutComponent,
     AdminHeaderComponent
   ],
-    imports: [
-        CommonModule,
-        RouterOutlet,
-        ButtonModule,
-        RippleModule,
-        RouterLink,
-        TabMenuModule
-    ]
+  imports: [
+    CommonModule,
+    RouterOutlet,
+    ButtonModule,
+    RippleModule,
+    RouterLink,
+    TabMenuModule,
+    MenuModule
+  ]
 })
 export class AdminLayoutModule { }

@@ -1,0 +1,30 @@
+<script src="../../../../api/models/Delivery.ts"></script>
+<div class="card">
+  <p-dataView #dv [value]="offers" [paginator]="true" [rows]="9" filterBy="id" layout="grid">
+
+    <ng-template let-offer pTemplate="gridItem">
+      <div class="col-12 md:col-4">
+        <div class="product-grid-item card">
+
+          <div class="product-grid-item-content">
+            <div class="product-description"><b>information: </b>{{offer.information}}</div>
+            <div class="cargo-count"><b>price: </b>{{offer.price}}</div>
+          </div>
+          <div class="buttons">
+            <ng-container *ngIf="this.isCustomer">
+              <button pButton pRipple type="button" icon="fa-solid fa-info" class="p-button-rounded"
+                      [routerLink]="['/offer/item/update',offer.id]"></button>
+            </ng-container>
+            <ng-container *ngIf="!this.isCustomer">
+              <button pButton pRipple type="button" icon="fa-solid fa-pen" class="p-button-rounded"
+                      [routerLink]="['/offer/item/update',offer.id]"></button>
+              <button pButton pRipple type="button" icon="fa-solid fa-trash" class="p-button-rounded p-button-danger"
+                      (click)="cancel(offer)"></button>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </p-dataView>
+</div>
+<p>offers works!</p>

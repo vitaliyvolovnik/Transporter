@@ -14,6 +14,7 @@ import {RippleModule} from "primeng/ripple";
 import {RadioButtonModule} from "primeng/radiobutton";
 import {InputNumberModule} from "primeng/inputnumber";
 import {InputTextModule} from "primeng/inputtext";
+import {MessageService} from "primeng/api";
 
 
 @Component({
@@ -23,23 +24,24 @@ import {InputTextModule} from "primeng/inputtext";
 })
 export class CustomersComponent implements OnInit {
 
-  customers:RestPage<Customer>=new RestPage<Customer>();
-  isLoading:boolean=false;
-  selectedCustomers: Customer[]=[];
+  customers: RestPage<Customer> = new RestPage<Customer>();
+  isLoading: boolean = false;
+  selectedCustomers: Customer[] = [];
+  lastPag!: Pagination;
 
 
-  constructor(private customerHttpService:CustomerHttpService) {
+  constructor(private customerHttpService: CustomerHttpService,
+              private messageService: MessageService) {
 
   }
 
   ngOnInit(): void {
   }
 
-  onLazyLoad(event:any){
-    console.log(event);
-    console.log(Pagination.fromPrimeNg(event))
+  onLazyLoad(event: any) {
 
-    this.loadData(Pagination.fromPrimeNg(event))
+    this.lastPag = Pagination.fromPrimeNg(event);
+    this.loadData(Pagination.fromPrimeNg(event));
   }
 
   loadData(pagination: Pagination = new Pagination()) {
@@ -47,26 +49,55 @@ export class CustomersComponent implements OnInit {
     this.customerHttpService.getAll(pagination)
       .pipe(first(), finalize(() => this.isLoading = false))
       .subscribe({
-        next: customers => {this.customers = customers;console.log(customers)},
+        next: customers => {
+          this.customers = customers;
+          console.log(customers)
+        },
         error: error => console.error(error)
       })
   }
 
+  updateData() {
+    this.loadData(this.lastPag)
+  }
+
 
   deleteSelectedCustomers() {
-
+    this.selectedCustomers.forEach((value, index) => this.deleteCustomer(value));
   }
 
-  deleteCustomer(customer: any) {
-
+  deleteCustomer(customer: Customer) {
+    this.customerHttpService.delete(customer.id)
+      .pipe(first())
+      .subscribe({
+        next: () => {
+          this.messageService.add({severity: 'success', summary: 'block', detail: `customer ${customer.firstname+ ' ' +customer.lastname} is deleted}`});
+          this.updateData()
+        }
+      });
   }
 
-  banCustomer(customer: any) {
-
+  banCustomer(customer: Customer) {
+    this.customerHttpService.blockUser(customer.user.id)
+      .pipe(first())
+      .subscribe({
+        next: () => {
+          this.messageService.add({severity: 'success', summary: 'block', detail: `customer ${customer.firstname+ ' ' +customer.lastname} is blocked`});
+          this.updateData()
+        }
+      })
   }
 
   unbanCustomer(customer: any) {
+    this.customerHttpService.unblockUser(customer.user.id)
+      .pipe(first())
+      .subscribe({
+        next: () => {
+          this.messageService.add({severity: 'success', summary: 'block', detail: `customer ${customer.firstname+ ' ' +customer.lastname} is unblocked`});
+          this.updateData()
+        }
 
+      })
   }
 }
 
@@ -88,5 +119,6 @@ export class CustomersComponent implements OnInit {
     InputTextModule
   ]
 })
-export class CustomersModule { }
+export class CustomersModule {
+}
 
