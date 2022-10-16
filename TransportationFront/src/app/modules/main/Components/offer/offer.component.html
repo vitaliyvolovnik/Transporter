@@ -14,8 +14,8 @@
       <input type="text" pInputText formControlName="price" placeholder="price">
       <span class="p-inputgroup-addon">$</span>
     </div>
-    <button *ngIf="isTransporter" pButton pRipple type="submit"  class="p-button-info" label="create" style="align-self:flex-end"></button>
-    <button *ngIf="!isTransporter" pButton pRipple type="button"  class="p-button-info" label="accept" style="align-self:flex-end"></button>
+    <button *ngIf="isTransporter" pButton pRipple type="submit"  class="p-button-info" label="{{(!offer)?'create':'update'}}" style="align-self:flex-end"></button>
+    <button *ngIf="!isTransporter" pButton pRipple type="button"  class="p-button-info" label="accept" (click)="acceptOffer()" style="align-self:flex-end"></button>
   </form>
 </div>
 

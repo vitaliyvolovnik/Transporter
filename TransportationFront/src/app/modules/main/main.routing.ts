@@ -1,5 +1,7 @@
 import {RouterModule, Routes} from "@angular/router";
 import {MainLayoutComponent} from "./layout/main-layout.component";
+import {NotAuthenticatedGuard} from "../../guard/not-authenticated.guard";
+import {AuthenticatedGuard} from "../../guard/authenticated.guard";
 
 
 const routes:Routes=[
@@ -9,13 +11,13 @@ const routes:Routes=[
     children:[
       {path:"",redirectTo:"deliveries",pathMatch:'full'},
       {path:"deliveries",loadChildren:()=>import("./Components/deliveries/deliveries.component").then(m=>m.DeliveriesModule)},
-      {path:"delivery/item",loadChildren:()=>import("./Components/delivery/delivery-create.component").then(m=>m.DeliveryCreateModule)},
-      {path:"delivery/item/:id",loadChildren:()=>import("./Components/delivery/delivery-create.component").then(m=>m.DeliveryCreateModule)},
-      {path:"offer/item/update/:offerId",loadChildren:()=>import("./Components/offer/offer.component").then(m=>m.OfferModule)},
-      {path:"offer/item/create/:deliveryId",loadChildren:()=>import("./Components/offer/offer.component").then(m=>m.OfferModule)},
-      {path:"offers",loadChildren:()=>import("./Components/offers/offers.component").then(m=>m.OffersModule)},
-      {path:"offers/:id",loadChildren:()=>import("./Components/offers/offers.component").then(m=>m.OffersModule)},
-      {path:"login",loadChildren:()=>import("./Components/login/login.component").then(m=>m.LoginModule)},
+      {path:"delivery/item",loadChildren:()=>import("./Components/delivery/delivery-create.component").then(m=>m.DeliveryCreateModule),canActivate:[AuthenticatedGuard]},
+      {path:"delivery/item/:id",loadChildren:()=>import("./Components/delivery/delivery-create.component").then(m=>m.DeliveryCreateModule),canActivate:[AuthenticatedGuard]},
+      {path:"offer/item/update/:offerId",loadChildren:()=>import("./Components/offer/offer.component").then(m=>m.OfferModule),canActivate:[AuthenticatedGuard]},
+      {path:"offer/item/create/:deliveryId",loadChildren:()=>import("./Components/offer/offer.component").then(m=>m.OfferModule),canActivate:[AuthenticatedGuard]},
+      {path:"offers",loadChildren:()=>import("./Components/offers/offers.component").then(m=>m.OffersModule),canActivate:[AuthenticatedGuard]},
+      {path:"offers/:id",loadChildren:()=>import("./Components/offers/offers.component").then(m=>m.OffersModule),canActivate:[AuthenticatedGuard]},
+      {path:"login",loadChildren:()=>import("./Components/login/login.component").then(m=>m.LoginModule),canActivate:[NotAuthenticatedGuard]},
 
 
     ]

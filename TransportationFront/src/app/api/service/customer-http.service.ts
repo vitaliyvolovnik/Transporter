@@ -9,7 +9,6 @@ import {RestPage} from "@api/models/RestPage";
 @Injectable({providedIn:'root'})
 export class CustomerHttpService{
   private readonly URL = `${API_URL}/customer`;
-  private readonly ADMIN_URL = `${API_URL}/admin`;
 
   constructor(private httpClient:HttpClient) {
   }
@@ -28,12 +27,5 @@ export class CustomerHttpService{
     return this.httpClient.delete(`${this.URL}/${id}`);
   }
 
-  blockUser(id:number){
-    return this.httpClient.get(`${this.ADMIN_URL}/${id}/false`);
-  }
-
-  unblockUser(id:number){
-    return this.httpClient.get(`${this.ADMIN_URL}/${id}/true`);
-  }
 
 }

@@ -6,7 +6,7 @@
     "paths": {
       "@env/*": ["environments/*"],
       "@config/*": ["app/config/*"],
-      "@api/*": ["app/api/*"],
+      "@api/*": ["app/api/*"]
     },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
@@ -27,6 +27,7 @@
       "es2020",
       "dom"
     ],
+    "allowSyntheticDefaultImports": true
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

@@ -8,7 +8,8 @@ const routes:Routes=[
     component:AdminLayoutComponent,
     children:[
       {path:"",pathMatch:"full",redirectTo:"customers"},
-      {path:"customers",loadChildren:()=>import("./Components/customers/customers.component").then(m=>m.CustomersModule)}
+      {path:"customers",loadChildren:()=>import("./Components/customers/customers.component").then(m=>m.CustomersModule)},
+      {path:"transporters",loadChildren:()=>import("./Components/transporters/transporters.component").then(m=>m.TransportersModule)}
 
     ]
   }

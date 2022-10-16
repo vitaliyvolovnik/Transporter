@@ -105,17 +105,17 @@
     letter-spacing: .3px;
 
     &.status {
-      &-PUBLISHED {
+      &-ACCEPTED {
         background: #C8E6C9;
         color: #256029;
       }
-      &-HAS_OFFER {
+      &-PENDING {
         background: #FEEDAF;
         color: #8a5340;
       }
-      &-OFFER_ACCEPTED {
-        background: #FEEDAF;
-        color: #8a5340;
+      &-REJECTED {
+        background: #FFCDD2;
+        color: #c63737;
       }
 
       &-CANCELED {

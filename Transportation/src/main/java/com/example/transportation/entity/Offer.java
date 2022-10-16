@@ -1,5 +1,6 @@
 package com.example.transportation.entity;
 
+import com.example.transportation.enums.OfferState;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,5 +28,11 @@ public class Offer {
 
     @ManyToOne()
     private Delivery delivery;
+
+
+    @Enumerated(EnumType.STRING)
+    private OfferState state;
+
+
 
 }

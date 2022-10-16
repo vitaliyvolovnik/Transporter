@@ -1,11 +1,9 @@
 
 <div class="header-left">
 
-<!--  <a routerLink="/" routerLinkActive="active">Home</a>-->
   <a routerLink="/deliveries" routerLinkActive="active">Deliveries</a>
   <a *ngIf="!IsAdmin && !IsTransporter" routerLink="/delivery/item" routerLinkActive="active">Add delivery</a>
   <a *ngIf="IsTransporter" routerLink="/offers" routerLinkActive="active">offers</a>
-  <a routerLink="/profile" routerLinkActive="active">Profile</a>
   <a *ngIf="IsAdmin" routerLink="/admin">Admin panel</a>
 </div>
 

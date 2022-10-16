@@ -14,14 +14,17 @@ import * as moment from "moment";
 
 import {SecurityService} from "../../../../service/security.service";
 import {Role} from "@api/models/enums/Role";
+import {DeliveryState} from "@api/models/enums/DeliveryState";
+import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 
+@UntilDestroy({checkProperties:true})
 @Component({
   selector: 'app-delivery-create',
   templateUrl: './delivery-create.component.html',
   styleUrls: ['./delivery-create.component.scss']
 })
 export class DeliveryCreateComponent implements OnInit {
-
+  readonly deliveryCancelState = DeliveryState.CANCELED;
   isTransporter:boolean= false;
   public autoResize: boolean = true;
   formGroup!: FormGroup;
@@ -35,7 +38,7 @@ export class DeliveryCreateComponent implements OnInit {
               private messageService: MessageService,
               private securityService:SecurityService) {
     this.securityService.isAuthenticated$
-      .pipe()
+      .pipe(untilDestroyed(this))
       .subscribe({
         next:()=>{
           this.isTransporter = this.securityService.hasRole(Role.TRANSPORTER);

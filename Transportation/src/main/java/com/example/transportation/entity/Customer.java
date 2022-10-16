@@ -20,7 +20,7 @@ public class Customer {
     private String lastname;
     private String phoneNumber;
 
-    @OneToOne(cascade=CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private User user;
 
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)

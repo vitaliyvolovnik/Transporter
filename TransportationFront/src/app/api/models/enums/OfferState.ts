@@ -1,0 +1,6 @@
+export enum OfferState {
+  PENDING = "PENDING",
+  REJECTED = "REJECTED",
+  ACCEPTED = "ACCEPTED",
+  CANCELED = "CANCELED",
+}

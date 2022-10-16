@@ -5,19 +5,22 @@
     <ng-template let-offer pTemplate="gridItem">
       <div class="col-12 md:col-4">
         <div class="product-grid-item card">
-
+          <div class="product-grid-item-top">
+            <span [class]="'product-badge status-' + offer.state">{{offer.state}}</span>
+          </div>
           <div class="product-grid-item-content">
+            <div class="product-description"><b>delivery description: </b>{{offer.delivery.description}}</div>
             <div class="product-description"><b>information: </b>{{offer.information}}</div>
-            <div class="cargo-count"><b>price: </b>{{offer.price}}</div>
+            <div class="cargo-count"><b>price: </b>{{offer.price | currency}}</div>
           </div>
           <div class="buttons">
             <ng-container *ngIf="this.isCustomer">
               <button pButton pRipple type="button" icon="fa-solid fa-info" class="p-button-rounded"
-                      [routerLink]="['/offer/item/update',offer.id]"></button>
+                      [routerLink]="['/offer/item/update', offer.id]"></button>
             </ng-container>
             <ng-container *ngIf="!this.isCustomer">
               <button pButton pRipple type="button" icon="fa-solid fa-pen" class="p-button-rounded"
-                      [routerLink]="['/offer/item/update',offer.id]"></button>
+                      [routerLink]="['/offer/item/update', offer.id]"></button>
               <button pButton pRipple type="button" icon="fa-solid fa-trash" class="p-button-rounded p-button-danger"
                       (click)="cancel(offer)"></button>
             </ng-container>

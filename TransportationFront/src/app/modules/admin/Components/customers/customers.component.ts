@@ -15,6 +15,7 @@ import {RadioButtonModule} from "primeng/radiobutton";
 import {InputNumberModule} from "primeng/inputnumber";
 import {InputTextModule} from "primeng/inputtext";
 import {MessageService} from "primeng/api";
+import {AdminHttpService} from "@api/service/admin-http.service";
 
 
 @Component({
@@ -31,7 +32,8 @@ export class CustomersComponent implements OnInit {
 
 
   constructor(private customerHttpService: CustomerHttpService,
-              private messageService: MessageService) {
+              private messageService: MessageService,
+              private adminService:AdminHttpService) {
 
   }
 
@@ -51,7 +53,6 @@ export class CustomersComponent implements OnInit {
       .subscribe({
         next: customers => {
           this.customers = customers;
-          console.log(customers)
         },
         error: error => console.error(error)
       })
@@ -62,23 +63,20 @@ export class CustomersComponent implements OnInit {
   }
 
 
-  deleteSelectedCustomers() {
-    this.selectedCustomers.forEach((value, index) => this.deleteCustomer(value));
-  }
-
-  deleteCustomer(customer: Customer) {
-    this.customerHttpService.delete(customer.id)
-      .pipe(first())
-      .subscribe({
-        next: () => {
-          this.messageService.add({severity: 'success', summary: 'block', detail: `customer ${customer.firstname+ ' ' +customer.lastname} is deleted}`});
-          this.updateData()
-        }
-      });
+  blockSelectedCustomers() {
+    this.selectedCustomers.forEach((value, index) => {
+      this.adminService.blockUser(value.user.id)
+        .pipe(first())
+        .subscribe({
+          next: () => {
+            this.updateData()
+          }
+        })
+    });
   }
 
   banCustomer(customer: Customer) {
-    this.customerHttpService.blockUser(customer.user.id)
+    this.adminService.blockUser(customer.user.id)
       .pipe(first())
       .subscribe({
         next: () => {
@@ -89,7 +87,7 @@ export class CustomersComponent implements OnInit {
   }
 
   unbanCustomer(customer: any) {
-    this.customerHttpService.unblockUser(customer.user.id)
+    this.adminService.unblockUser(customer.user.id)
       .pipe(first())
       .subscribe({
         next: () => {

@@ -1,6 +1,7 @@
 package com.example.transportation.dto;
 
 
+import com.example.transportation.enums.OfferState;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -18,6 +19,8 @@ public class OfferDto {
     private String information;
     private Double price;
     private ZonedDateTime creatingTime;
+
+    private OfferState state;
 
     private TransporterShortDto transporter;
     private DeliveryShortDto delivery;

@@ -52,6 +52,7 @@ public interface Mapper {
     //Offer
 
     @Mapping(target = "creatingTime",ignore = true)
+    @Mapping(target = "state",defaultExpression = "java(com.example.transportation.enums.OfferState.PENDING)")
     Offer toOffer(OfferDto dto);
 
     OfferDto toOfferDto(Offer entity);

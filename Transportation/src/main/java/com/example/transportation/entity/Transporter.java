@@ -20,7 +20,7 @@ public class Transporter {
     private String companyName;
     private String phoneNumber;
 
-    @OneToOne(cascade=CascadeType.PERSIST)
+    @OneToOne(cascade=CascadeType.PERSIST,fetch = FetchType.LAZY)
     private User user;
 
     @OneToMany(mappedBy = "transporter",fetch = FetchType.LAZY)

@@ -10,9 +10,10 @@ import {Offer} from "@api/models/Offer";
 import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
 import {ActivatedRoute, RouterLink, RouterModule} from "@angular/router";
-import {first} from "rxjs";
+import {filter, first} from "rxjs";
+import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 
-
+@UntilDestroy({checkProperties:true})
 @Component({
   selector: 'app-offers',
   templateUrl: './offers.component.html',
@@ -28,7 +29,7 @@ export class OffersComponent implements OnInit {
               private messageService:MessageService,
               private securityService:SecurityService) {
     this.securityService.isAuthenticated$
-      .pipe()
+      .pipe(untilDestroyed(this))
       .subscribe({
         next:()=>{
           this.isCustomer = this.securityService.hasRole(Role.CUSTOMER);

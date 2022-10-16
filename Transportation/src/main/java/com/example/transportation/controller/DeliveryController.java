@@ -17,28 +17,45 @@ public class DeliveryController {
     private final DeliveryService deliveryService;
 
     @GetMapping("/{id}")
-    public DeliveryDto get(@PathVariable long id){
+    public DeliveryDto get(@PathVariable long id) {
         return deliveryService.get(id);
     }
 
     @GetMapping()
-    public List<DeliveryShortDto> get(){return deliveryService.getAll();}
+    public List<DeliveryShortDto> get() {
+        return deliveryService.getAll();
+    }
 
     @GetMapping("/current")
-    public List<DeliveryShortDto> getCurrent(){return deliveryService.getCurrentCustomerDeliveries();}
+    public List<DeliveryShortDto> getCurrent() {
+        return deliveryService.getCurrentCustomerDeliveries();
+    }
 
     @PreAuthorize("hasAnyRole('ADMIN','CUSTOMER')")
     @PostMapping
-    public DeliveryDto create(@RequestBody DeliveryDto deliveryDto){return deliveryService.create(deliveryDto);}
+    public DeliveryDto create(@RequestBody DeliveryDto deliveryDto) {
+        return deliveryService.create(deliveryDto);
+    }
 
     @PreAuthorize("hasAnyRole('ADMIN','CUSTOMER')")
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable long id){deliveryService.delete(id);}
+    public void delete(@PathVariable long id) {
+        deliveryService.delete(id);
+    }
 
     @PreAuthorize("hasAnyRole('ADMIN','CUSTOMER')")
     @PutMapping("/{id}")
-    public DeliveryDto update(@PathVariable long id,@RequestBody DeliveryDto deliveryDto){
-        return deliveryService.update(id,deliveryDto);
+    public DeliveryDto update(@PathVariable long id, @RequestBody DeliveryDto deliveryDto) {
+        return deliveryService.update(id, deliveryDto);
     }
 
+    @PutMapping("/{id}/{offerId}")
+    public DeliveryDto acceptOffer(@PathVariable long id, @PathVariable long offerId) {
+        return deliveryService.acceptOffer(id, offerId);
+    }
+
+    @GetMapping("/cancel/{id}")
+    public DeliveryDto cancelDelivery(@PathVariable long id) {
+        return this.deliveryService.cancelDelivery(id);
+    }
 }

@@ -2,6 +2,7 @@ package com.example.transportation.dto;
 
 import com.example.transportation.entity.Address;
 import com.example.transportation.entity.Cargo;
+import com.example.transportation.entity.Offer;
 import com.example.transportation.enums.DeliveryState;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,4 +34,6 @@ public class DeliveryDto {
 
     private CustomerShortDto customer;
     private List<OfferShortDto> offer;
+
+    private OfferShortDto acceptedOffer;
 }

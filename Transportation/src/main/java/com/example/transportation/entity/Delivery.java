@@ -5,6 +5,7 @@ import com.example.transportation.enums.DeliveryState;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
@@ -54,4 +55,22 @@ public class Delivery {
     private List<Offer> offers;
 
 
+
+    @OneToOne()
+    private Offer acceptedOffer;
+
+    @Override
+    public String toString() {
+        return "Delivery{" +
+                "id=" + id +
+                ", cargoes=" + cargoes +
+                ", destinationAddress=" + destinationAddress +
+                ", departureAddress=" + departureAddress +
+                ", description='" + description + '\'' +
+                ", state=" + state +
+                ", creatingTime=" + creatingTime +
+                ", departureDate=" + departureDate +
+                ", arrivalDate=" + arrivalDate +
+                '}';
+    }
 }

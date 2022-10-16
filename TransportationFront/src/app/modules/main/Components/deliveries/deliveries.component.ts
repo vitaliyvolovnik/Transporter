@@ -16,7 +16,9 @@ import {SecurityService} from "../../../../service/security.service";
 import {Role} from "@api/models/enums/Role";
 import {DeliveryState} from "@api/models/enums/DeliveryState";
 import {CustomerHttpService} from "@api/service/customer-http.service";
+import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 
+@UntilDestroy({checkProperties:true})
 @Component({
   selector: 'app-deliveries',
   templateUrl: './deliveries.component.html',
@@ -28,21 +30,13 @@ export class DeliveriesComponent implements OnInit {
   isCustomer:boolean=false;
   deliveries!: Delivery[];
 
-  /*sortOptions: SelectItem[] = [
-    {label: 'id High to Low', value: '!id'},
-    {label: 'id Low to High', value: 'id'}
-  ];
-  sortKey: string = this.sortOptions[0].value
-  sortField: string = 'id';
-  sortOrder: number = 1;
-*/
 
   constructor(private deliveryService: DeliveryHttpService,
               private customerService: CustomerHttpService,
               private messageService:MessageService,
               private securityService:SecurityService) {
     this.securityService.isAuthenticated$
-      .pipe()
+      .pipe(untilDestroyed(this))
       .subscribe({
         next:()=>{
           this.isCustomer = this.securityService.hasRole(Role.CUSTOMER);
@@ -69,17 +63,13 @@ export class DeliveriesComponent implements OnInit {
     }
   }
 
-  onSortChange(event:any) {
-    let value = event.value;
-  }
-
-  edit(delivery: Delivery) {
-    this.messageService.add({severity:'warn', summary: 'Success', detail: `editing delivery with id${delivery.id}`});
-
-  }
 
   cancel(delivery: Delivery) {
-    this.messageService.add({severity:'error', summary: 'Error', detail: `delivery with id${delivery.id} is canceled`});
+    this.deliveryService.cancelDelivery(delivery.id)
+      .pipe(first())
+      .subscribe({next:()=>{
+          this.getDeliveries();
+        }});
   }
 }
 

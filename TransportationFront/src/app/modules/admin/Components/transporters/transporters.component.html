@@ -1,0 +1,63 @@
+
+<div class="card">
+  <p-toolbar styleClass="mb-4">
+    <ng-template pTemplate="left">
+      <button pButton pRipple icon="pi pi-lock" class="p-button-warm" (click)="blockSelectedTransporters()" [disabled]="!selectedTransporter || !selectedTransporter.length"></button>
+    </ng-template>
+    <ng-template pTemplate="right">
+    </ng-template>
+  </p-toolbar>
+
+
+  <p-table #dt [value]="transporters.content" [rows]="transporters.size" [paginator]="true" [loading]="isLoading" (onLazyLoad)="onLazyLoad($event)"
+           [globalFilterFields]="['firstname','lastname','user.email']" responsiveLayout="scroll" [totalRecords]="transporters.totalElements"
+           [(selection)]="selectedTransporter" [rowHover]="true" dataKey="id" [lazy]="true"
+           currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        <h5 class="m-0">Manage Products</h5>
+        <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Search..." />
+                </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 3rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th pSortableColumn="id">Id <p-sortIcon field="id"></p-sortIcon></th>
+        <th pSortableColumn="companyName">company name <p-sortIcon field="companyName"></p-sortIcon></th>
+        <th pSortableColumn="number">number <p-sortIcon field="number"></p-sortIcon></th>
+        <th pSortableColumn="email">email <p-sortIcon field="email"></p-sortIcon></th>
+        <th>Active</th>
+        <th>Action</th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-transporter>
+      <tr>
+        <td>
+          <p-tableCheckbox [value]="transporter"></p-tableCheckbox>
+        </td>
+        <td>{{transporter.id}}</td>
+        <td>{{transporter.companyName}}</td>
+        <td>{{transporter.phoneNumber}}</td>
+        <td>{{transporter.user.email}}</td>
+        <td>{{transporter.user.active}}</td>
+        <td>
+          <button pButton pRipple icon="pi pi-lock-open" class="p-button-rounded p-button-success" *ngIf="!transporter.user.active" (click)="unbanTransporter(transporter)"></button>
+          <button pButton pRipple icon="pi pi-lock" class="p-button-rounded p-button-primary" *ngIf="transporter.user.active" (click)="banTransporter(transporter)"></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between">
+        In total there are {{transporters.content ? transporters.content.length : 0 }} products.
+      </div>
+    </ng-template>
+  </p-table>
+</div>
+
+

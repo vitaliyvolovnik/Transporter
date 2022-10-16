@@ -12,7 +12,10 @@ import {RippleModule} from "primeng/ripple";
 import {Offer} from "@api/models/Offer";
 import {first} from "rxjs";
 import {Role} from "@api/models/enums/Role";
+import {DeliveryHttpService} from "@api/service/delivery-http.service";
+import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 
+@UntilDestroy({checkProperties:true})
 @Component({
   selector: 'app-offer',
   templateUrl: './offer.component.html',
@@ -20,27 +23,28 @@ import {Role} from "@api/models/enums/Role";
 })
 export class OfferComponent implements OnInit {
   autoResize: boolean = true;
-  formGroup!:FormGroup;
-  offer?:Offer;
-  isTransporter:boolean=true;
+  formGroup!: FormGroup;
+  offer?: Offer;
+  isTransporter: boolean = true;
+
   constructor(private formBuilder: FormBuilder,
               private router: Router,
               private activatedRoute: ActivatedRoute,
               private offerService: OfferHttpService,
               private messageService: MessageService,
-              private securityService:SecurityService) {
+              private securityService: SecurityService,
+              private deliveryService: DeliveryHttpService) {
 
     this.securityService.isAuthenticated$
-      .pipe()
+      .pipe(untilDestroyed(this))
       .subscribe({
-        next:()=>{
+        next: () => {
           this.isTransporter = this.securityService.hasRole(Role.TRANSPORTER);
         }
       })
     this.initForm();
-    const offerId = activatedRoute.snapshot.params['id'];
+    const offerId = activatedRoute.snapshot.params['offerId'];
     if (offerId) {
-      console.log(3)
       this.loadOffer(offerId);
     }
   }
@@ -48,63 +52,82 @@ export class OfferComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  initForm(){
+  initForm() {
     this.formGroup = this.formBuilder.group({
-      information:[{value: null, disabled: !this.isTransporter},[Validators.required, Validators.max(255)]],
-      price:[{value: null, disabled: !this.isTransporter},Validators.required],
+      information: [{value: null, disabled: !this.isTransporter}, [Validators.required, Validators.max(255)]],
+      price: [{value: null, disabled: !this.isTransporter}, Validators.required],
     })
   }
 
 
   saveOffer() {
     let offer = this.formGroup.value as Offer;
-    if(this.offer){
+    if (this.offer) {
       offer.id = this.offer.id;
       this.update(offer);
-    } else{
+    } else {
       this.create(offer);
     }
 
   }
-  create(offer:Offer){
-    offer.delivery = {id: this.activatedRoute.snapshot.params['id']} as any;
+
+  create(offer: Offer) {
+
+    offer.delivery = {id: this.activatedRoute.snapshot.params['deliveryId']} as any;
     this.offerService.create(offer)
       .pipe(first())
       .subscribe({
-        next:()=>{
-          this.router.navigate(['delivery/item',offer.delivery.id])
-            .then(()=> this.messageService.add({severity:'info', summary: 'Info', detail: 'offer is created'}))
+        next: () => {
+          this.router.navigate(['delivery/item', offer.delivery.id])
+            .then(() => this.messageService.add({severity: 'info', summary: 'Info', detail: 'offer is created'}))
         },
-        error:(err)=>{
-          this.messageService.add({severity:'info', summary: 'Info', detail: 'offer is created'})
+        error: () => {
+          this.messageService.add({severity: 'info', summary: 'Info', detail: 'offer creation error'})
         }
       })
   }
-  update(offer:Offer){
+
+  update(offer: Offer) {
     this.offerService.update(offer)
       .pipe(first())
       .subscribe({
-        next:()=>{
-          this.router.navigate(['delivery/item',offer.delivery.id])
-            .then(()=> this.messageService.add({severity:'info', summary: 'Info', detail: 'offer is created'}))
+        next: () => {
+          this.router.navigate(['delivery/item', offer.delivery.id])
+            .then(() => this.messageService.add({severity: 'info', summary: 'Info', detail: 'offer is created'}))
         },
-        error:(err)=>{
-          this.messageService.add({severity:'info', summary: 'Info', detail: 'offer is created'})
+        error: () => {
+          this.messageService.add({severity: 'info', summary: 'Info', detail: 'offer updating error'})
         }
       })
   }
+
   private loadOffer(offerId: any) {
     this.offerService.get(offerId)
       .pipe(first())
       .subscribe({
-        next:(offer)=>{
+        next: (offer) => {
           this.offer = offer;
           this.formGroup.patchValue(offer);
         }
       })
   }
-}
 
+  acceptOffer() {
+    if (this.offer?.delivery?.id && this.offer?.id)
+      this.deliveryService.acceptOffer(this.offer?.delivery?.id, this.offer?.id)
+        .pipe(first())
+        .subscribe({
+          next:()=>{
+            this.router.navigate(['/'])
+            this.messageService.add({severity:'info', summary: 'Info', detail: 'offer is accepted'});
+          },
+          error:()=>{
+            this.messageService.add({severity:'error', summary: 'Error', detail: 'cannot accept offer'});
+          }
+
+        })
+  }
+}
 
 
 @NgModule({
@@ -112,7 +135,7 @@ export class OfferComponent implements OnInit {
     OfferComponent
   ],
   imports: [
-    RouterModule.forChild([{path:'',component:OfferComponent}]),
+    RouterModule.forChild([{path: '', component: OfferComponent}]),
     CommonModule,
     InputTextareaModule,
     ReactiveFormsModule,
@@ -121,4 +144,5 @@ export class OfferComponent implements OnInit {
     RippleModule
   ]
 })
-export class OfferModule { }
+export class OfferModule {
+}

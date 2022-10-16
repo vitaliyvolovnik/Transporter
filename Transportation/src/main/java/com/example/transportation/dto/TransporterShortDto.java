@@ -14,6 +14,8 @@ public class TransporterShortDto {
     private Long id;
 
     private String companyName;
-    private String number;
+    private String phoneNumber;
     private String email;
+
+    private UserDto user;
 }
